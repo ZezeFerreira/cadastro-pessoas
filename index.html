@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pessoas</title>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    Nome <input id="nome">
+    <button onclick="adicionarPessoa()">Adicionar Pessoa</button>
+    <button onclick="salvar()">Salvar</button>
+    <button onclick="carregar()">Carregar</button>
+    
+    <div id="lista"></div>
+
+    <h3>JSON</h3>
+    <pre id="saida"></pre>
+    
+    <script>
+        let pessoas = []
+        function adicionarPessoa(){
+            const nome = document.getElementById('nome').value.trim();
+            if (!nome) return;
+            pessoas.push({nome, filhos:[]});
+            document.getElementById('nome').value='';
+            mostrar()
+        }
+
+        function removerPessoa(index){
+            pessoas.splice(index,1);
+            mostrar();
+        }
+
+        function mostrar() {
+            const lista = document.getElementById('lista');
+            lista.innerHTML = '';
+            pessoas.forEach((pessoa, i) => {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <strong>${pessoa.nome}</strong>
+                    <button onclick="removerPessoa(${i})">Remover</button>
+                `;
+                lista.appendChild(div);
+            });
+
+            document.getElementById('saida').textContent = JSON.stringify(pessoas, null, 2);
+        }
+
+    mostrar();
+    </script>
+</body>
+</html>
